@@ -1,5 +1,21 @@
-node_modules
-# Keep environment variables out of version control
-.env
+# Dependencies
+/node_modules
 
-/generated/prisma
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Production
+/dist
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Prisma
+/prisma/migrations
+/node_modules/@prisma/client
