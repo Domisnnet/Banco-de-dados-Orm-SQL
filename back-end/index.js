@@ -3,7 +3,7 @@ import { PrismaClient } from './generated/prisma/index.js';
 
 const prisma = new PrismaClient();
 
-async function createUser() {
+/*async function createUser() {
   const user = await prisma.usuario.create({
     data: {
       nome: 'Dominisinnet', 
@@ -12,5 +12,6 @@ async function createUser() {
   });
   console.log(user);
 }
+  */
 
-createUser();
+//createUser();
