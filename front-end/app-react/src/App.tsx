@@ -1,6 +1,8 @@
 // O componente Lista de Usuários permanece no App.jsx, mas vamos adicionar o Formulário
 
 // ... importações (React, useState, useEffect, axios)
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/usuarios';
 
