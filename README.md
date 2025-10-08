@@ -27,7 +27,6 @@
   - [📂 Estrutura do Projeto](#-estrutura-do-projeto)
   - [🧠 Próximos Passos e Melhorias](#-próximos-passos-e-melhorias)
   - [👨‍💻 Autor](#-autor)
-  - [](#)
   - [📝 Licença](#-licença)
 
 ---
@@ -176,6 +175,7 @@ Banco-de-dados-Orm-SQL/
     <img src="src/imagens/DomisDev.png" width="60px" height="60px" alt="Acessar perfil GitHub">
     DomisDev
 </a>
+
 ---
 
 ## 📝 Licença
