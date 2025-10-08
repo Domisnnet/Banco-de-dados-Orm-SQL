@@ -27,6 +27,7 @@
   - [📂 Estrutura do Projeto](#-estrutura-do-projeto)
   - [🧠 Próximos Passos e Melhorias](#-próximos-passos-e-melhorias)
   - [👨‍💻 Autor](#-autor)
+  - [](#)
   - [📝 Licença](#-licença)
 
 ---
@@ -171,11 +172,10 @@ Banco-de-dados-Orm-SQL/
 
 ## 👨‍💻 Autor
 
-<a href="https://github.com/Domisnnet">
+<a href="https://github.com/Domisnnet" style="text-decoration: none;">
     <img src="src/imagens/DomisDev.png" width="60px" height="60px" alt="Acessar perfil GitHub">
     DomisDev
-</a> 
-
+</a>
 ---
 
 ## 📝 Licença
