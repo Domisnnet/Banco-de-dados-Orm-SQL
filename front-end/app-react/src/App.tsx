@@ -4,7 +4,7 @@ import axios from 'axios';
 // URL base da sua API
 const API_URL = 'http://localhost:3001/usuarios';
 
-// Interface (tipagem) para o usuário no TypeScript
+// Interface (tipagem) para o usuário
 interface Usuario {
     id: number;
     nome: string;
@@ -15,9 +15,8 @@ interface Usuario {
 // 1. COMPONENTE FORMULÁRIO (Criação de Usuário)
 // ----------------------------------------------------
 
-// Define as propriedades que o componente Formulário espera
 interface FormularioProps {
-    onUsuarioCadastrado: () => void; // Função para recarregar a lista
+    onUsuarioCadastrado: () => void;
 }
 
 const FormularioUsuario: React.FC<FormularioProps> = ({ onUsuarioCadastrado }) => {
@@ -29,18 +28,14 @@ const FormularioUsuario: React.FC<FormularioProps> = ({ onUsuarioCadastrado }) =
         e.preventDefault();
         setStatus('Enviando...');
         
-        // Requisição POST para o backend
         axios.post(API_URL, { nome, email })
             .then(response => {
                 setStatus(`Sucesso: Usuário ${response.data.nome} criado!`);
                 setNome('');
                 setEmail('');
-                
-                // Chama a função passada pelo pai para recarregar a lista
                 onUsuarioCadastrado(); 
             })
             .catch(error => {
-                // Trata erros retornados pelo Express/Prisma (ex: email duplicado)
                 const msg = error.response?.data?.error || 'Erro desconhecido ao cadastrar.';
                 setStatus(`Erro: ${msg}`);
             });
@@ -75,17 +70,16 @@ const FormularioUsuario: React.FC<FormularioProps> = ({ onUsuarioCadastrado }) =
 
 
 // ----------------------------------------------------
-// 2. COMPONENTE PRINCIPAL (App)
+// 2. COMPONENTE PRINCIPAL (App) - Com Deleção
 // ----------------------------------------------------
 
 function App() {
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]); // Usa a tipagem Usuario[]
+    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Função que faz a requisição GET para o backend
     const fetchUsuarios = () => {
-        setLoading(true); // Indica que a busca começou
-        axios.get<Usuario[]>(API_URL) // Tipa a resposta esperada
+        setLoading(true);
+        axios.get<Usuario[]>(API_URL)
             .then(response => {
                 setUsuarios(response.data);
                 setLoading(false);
@@ -96,7 +90,24 @@ function App() {
             });
     };
 
-    // Executa a busca assim que o componente é montado
+    // Lógica para deletar um usuário
+    const handleDelete = (id: number, nome: string) => {
+        if (!window.confirm(`Tem certeza que deseja deletar o usuário ${nome}?`)) {
+            return;
+        }
+        
+        axios.delete(`${API_URL}/${id}`)
+            .then(() => {
+                console.log(`Usuário ${nome} deletado com sucesso.`);
+                // Recarrega a lista após a deleção
+                fetchUsuarios(); 
+            })
+            .catch(error => {
+                console.error('Erro ao deletar usuário:', error);
+                alert('Erro ao deletar usuário. Verifique o console.');
+            });
+    };
+
     useEffect(() => {
         fetchUsuarios();
     }, []); 
@@ -105,7 +116,6 @@ function App() {
         <div style={{ padding: '20px' }}>
             <h1>Aplicação Full Stack (React ↔ Node/Prisma)</h1>
             
-            {/* Adiciona o formulário e passa a função de recarregar */}
             <FormularioUsuario onUsuarioCadastrado={fetchUsuarios} /> 
 
             <h2>Lista de Usuários</h2>
@@ -116,9 +126,15 @@ function App() {
             ) : (
                 <ul>
                     {usuarios.map(user => (
-                        // Adiciona um botão Delete aqui no futuro!
-                        <li key={user.id}>
+                        <li key={user.id} style={{ marginBottom: '10px' }}>
                             <strong>{user.nome}</strong>: {user.email} (ID: {user.id})
+                            
+                            <button 
+                                onClick={() => handleDelete(user.id, user.nome)}
+                                style={{ marginLeft: '15px', color: 'red' }}
+                            >
+                                Deletar
+                            </button>
                         </li>
                     ))}
                 </ul>
