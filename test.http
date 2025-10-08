@@ -1,0 +1,11 @@
+### Rota POST: Criar um Novo Usuário
+POST http://localhost:3001/usuarios
+Content-Type: application/json
+
+{
+    "nome": "Neo Silva",
+    "email": "neo.silva@teste.com"
+}
+
+### Rota GET: Listar Todos os Usuários
+GET http://localhost:3001/usuarios
