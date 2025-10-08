@@ -1,3 +1,5 @@
+// Exemplo de Criação de Tabela e Inserção de Dados manuais
+
 /*import sqlite3 from 'sqlite3';
 
 const db = new sqlite3.Database('./banco.db');
