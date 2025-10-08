@@ -1,7 +1,15 @@
+// front-end/app-react/src/App.tsx
+
 import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/usuarios';
+// ----------------------------------------------------
+// DEFINIÇÃO DA URL DA API (Lida da Variável de Ambiente)
+// ----------------------------------------------------
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/';
+// A URL completa da rota de usuários
+const API_USUARIOS_URL = `${API_BASE_URL}usuarios`;
+
 
 // Interface (tipagem) para o usuário
 interface Usuario {
@@ -27,7 +35,8 @@ const FormularioUsuario: React.FC<FormularioProps> = ({ onUsuarioCadastrado }) =
         e.preventDefault();
         setStatus('Enviando...');
         
-        axios.post(API_URL, { nome, email })
+        // REQUISIÇÃO POST USANDO A NOVA VARIÁVEL
+        axios.post(API_USUARIOS_URL, { nome, email }) 
             .then(response => {
                 setStatus(`Sucesso: Usuário ${response.data.nome} criado!`);
                 setNome('');
@@ -86,7 +95,8 @@ const FormularioEdicao: React.FC<FormularioEdicaoProps> = ({ usuario, onFinaliza
         e.preventDefault();
         setStatus('Atualizando...');
         
-        axios.put(`${API_URL}/${usuario.id}`, { nome, email })
+        // REQUISIÇÃO PUT USANDO A NOVA VARIÁVEL
+        axios.put(`${API_USUARIOS_URL}/${usuario.id}`, { nome, email }) 
             .then(() => {
                 setStatus(`Sucesso: Usuário ${nome} atualizado!`);
                 onFinalizarEdicao(); 
@@ -136,8 +146,9 @@ function App() {
 
     const fetchUsuarios = () => {
         setLoading(true);
-        setEditingUser(null); // Fecha qualquer formulário de edição ao recarregar
-        axios.get<Usuario[]>(API_URL)
+        setEditingUser(null);
+        // REQUISIÇÃO GET USANDO A NOVA VARIÁVEL
+        axios.get<Usuario[]>(API_USUARIOS_URL) 
             .then(response => {
                 setUsuarios(response.data);
                 setLoading(false);
@@ -153,7 +164,8 @@ function App() {
             return;
         }
         
-        axios.delete(`${API_URL}/${id}`)
+        // REQUISIÇÃO DELETE USANDO A NOVA VARIÁVEL
+        axios.delete(`${API_USUARIOS_URL}/${id}`) 
             .then(() => {
                 console.log(`Usuário ${nome} deletado com sucesso.`);
                 fetchUsuarios(); 
