@@ -171,7 +171,7 @@ Banco-de-dados-Orm-SQL/
 
 ## 👨‍💻 Autor
 
-<a href="https://github.com/Domisnnet" style="text-decoration: none;">
+<a href="https://github.com/Domisnnet">
     <img src="src/imagens/DomisDev.png" width="60px" height="60px" alt="Acessar perfil GitHub">
     DomisDev
 </a>
