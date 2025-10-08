@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// front-end/app-react/src/App.jsx
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+// URL base da sua API
+const API_URL = 'http://localhost:3001/usuarios';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Hook para buscar dados quando o componente é montado
+  useEffect(() => {
+    fetchUsuarios();
+  }, []);
+
+  const fetchUsuarios = () => {
+    axios.get(API_URL)
+      .then(response => {
+        setUsuarios(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar dados do Backend:', error);
+        setLoading(false);
+      });
+  };
+
+  if (loading) {
+    return <h1>Carregando dados da API...</h1>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: '20px' }}>
+      <h2>Conexão Full Stack (React ↔ Node/Prisma)</h2>
+      
+      {usuarios.length === 0 ? (
+        <p>Nenhum usuário encontrado. Adicione um via POST/Insomnia para aparecer aqui.</p>
+      ) : (
+        <div>
+            <h3>Usuários Cadastrados:</h3>
+            <ul>
+              {usuarios.map(user => (
+                // Use user.id como chave, é o padrão do Prisma
+                <li key={user.id}>
+                  <strong>{user.nome}</strong>: {user.email}
+                </li>
+              ))}
+            </ul>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
